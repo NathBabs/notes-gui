@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"
+        integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg=="
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+
+<body>
+    <nav>
+        <div class="nav-wrapper">
+            <a href="#" class="brand-logo">Notes</a>
+            <ul id="nav-mobile" class="right hide-on-med-and-down">
+                <li><a href="#">Home</a></li>
+                <li><a href="/notes">Notes</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- <div class="container"> -->
+        <!-- <h1>Note Taking app</h1> -->
+
+        <div class="parallax-container">
+            <div class="parallax"><img src="/images/notebook.jpg"></div>
+        </div>
+        <div class="section white">
+            <div class="row container">
+                <h2 class="header">Note Taking App</h2>
+                <!-- <p class="grey-text text-darken-3 lighten-3">Parallax is an effect where the background content or image in this
+                    case, is moved at a different speed than the foreground content while scrolling.</p> -->
+                <form id="myForm" class="col s12">
+                    <div class="row">
+                        <div class="input-field col s6">
+                            <input placeholder="title of note" id="title" name="title" type="text" class="validate"
+                                required="" aria-required="true">
+                            <label for="title">Title</label>
+                        </div>
+                        <div class="input-field col s6">
+                            <input placeholder="directory" id="directory" name="directory" type="text" class="validate"
+                                required="" aria-required="true">
+                            <label for="directory">Directory</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-field col s12">
+                            <input placeholder="Body of note" name="body" id="body" type="text" class="validate"
+                                required="" aria-required="true">
+                            <label for="body">Body</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <button class="btn waves-effect waves-light" type="submit" name="action">Submit
+                            <i class="material-icons right">send</i>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="parallax-container">
+            <div class="parallax"><img src="images/notebook_yellow.jpg"></div>
+        </div>
+
+
+        <!-- <div class="row">
+            
+        </div> -->
+
+    <!-- </div> -->
+
+    <script>
+
+        $(document).ready(function () {
+            $('.sidenav').sidenav();
+            $('.parallax').parallax();
+        });
+
+        const body = document.querySelector('#body').value;
+        const title = document.querySelector('#title').value;
+        const directory = document.querySelector('#directory').value;
+        const myForm = document.querySelector('#myForm');
+        const bodyData = JSON.stringify({
+            title: title,
+            directory: directory,
+            body: body
+        });
+
+        myForm.addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            //const formData = new FormData(this);
+
+            fetch('/note', {
+                method: 'POST',
+                body: bodyData
+            }).then(function (response) {
+                return response.text();
+            }).then(function (text) {
+                console.log(text)
+            }).catch(function (error) {
+                console.error(error);
+            })
+
+        });
+
+
+    </script>
+</body>
+
+</html>

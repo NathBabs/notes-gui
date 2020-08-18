@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"
+        integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg=="
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <title>Document</title>
+</head>
+
+<body>
+    <nav>
+        <div class="nav-wrapper">
+            <a href="#" class="brand-logo">Notes</a>
+            <ul id="nav-mobile" class="right hide-on-med-and-down">
+                <li><a href="/">Home</a></li>
+                <li><a href="#">Notes</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="row">
+
+        </div>
+    </div>
+
+    <script>
+         $(document).ready(function () {
+            $('.sidenav').sidenav();
+            $('.parallax').parallax();
+        });
+
+        const renderNotes = (res) => {
+
+
+            for (const [key, value] of Object.entries(res)) {
+                for (const v of value) {
+                    //find the container where we attach everything to
+                    const notesBlock = document.querySelector('.row');
+
+                    //Create all necessary elements      
+                    const row = document.createElement('div');
+                    const col = document.createElement('div');
+                    const card = document.createElement('div');
+                    const card_content = document.createElement('div');
+                    const card_title = document.createElement('span');
+                    const p = document.createElement('p');
+                    const card_action = document.createElement('div');
+                    const folder = document.createElement('span');
+
+                    //Add appropriate class and ids and insert data
+                    row.className = 'row';
+                    col.className = 'col s12 m6';
+                    card.className = 'card blue-grey darken-1';
+                    card_content.className = 'card-content white-text';
+                    card_title.className = 'card-title';
+                    p.className;
+                    card_action.className = 'card-action';
+
+                    //insert data
+                    p.innerHTML = v.body;
+                    card_title.innerHTML = v.title;
+                    folder.innerHTML = key;
+
+                    //append everything to the main container
+                    card_content.append(card_title, p);
+                    card_action.append(folder);
+                    card.append(card_content, card_action);
+                    col.append(card);
+                    notesBlock.append(col);
+
+
+                    console.log(key)
+                    console.log(v.title);
+                    console.log(v.body)
+                }
+            }
+        }
+
+
+
+        window.addEventListener('load', e => {
+            fetch('/listnotes', {
+                method: 'GET'
+            }).then((response) => {
+                return response.json()
+            }).then((res) => {
+                console.log(res);
+                renderNotes(res);
+            }).catch((error) => {
+                console.log(error);
+            })
+        });
+        //document.onload(e => {
+
+       // })
+    </script>
+</body>
+
+</html>
